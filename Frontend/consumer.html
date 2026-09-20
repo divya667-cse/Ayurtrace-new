@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Consumer Verification</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+ 
+<h2>Consumer Verification</h2>
+<input id="id" placeholder="Herb ID">
+<button onclick="verify()">Verify</button>
+<pre id="out"></pre>
+ 
+<h3>Scan this QR to share/verify this herb:</h3>
+<div id="qrcode"></div>
+ 
+<script>
+function verify(){
+  fetch(`http://localhost:3000/getHerb/${id.value}`)
+  .then(r=>r.json())
+  .then(d=> {
+    out.innerText = JSON.stringify(d, null, 2);
+    generateQR(id.value);
+  });
+}
+ 
+function generateQR(herbId) {
+  document.getElementById("qrcode").innerHTML = ""; // clear previous QR
+  new QRCode(document.getElementById("qrcode"), {
+    text: `http://localhost:3000/getHerb/${herbId}`,
+    width: 150,
+    height: 150
+  });
+}
+</script>
+ 
+</body>
+</html>
