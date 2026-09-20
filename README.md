@@ -1,57 +1,52 @@
-# AyurTrace – Blockchain-Based Herb Traceability System
+AyurTrace – Blockchain-Based Herb Traceability System
 
-AyurTrace is a blockchain-powered traceability system for Ayurvedic herbs. It combines smart contracts, GPS geo-tagging, and QR-code verification to track herbs from farm to consumer, aiming to eliminate fraud and manual paper-based record keeping in the Ayurvedic supply chain.
+AyurTrace is a blockchain-powered traceability system for Ayurvedic herbs. It combines smart contracts, GPS geo-tagging, and QR-code verification to track herbs from farm to consumer, helping reduce fraud and reliance on manual paper-based record keeping in the Ayurvedic supply chain.
 
-## Problem
+Problem
 
-The Ayurvedic herb supply chain relies heavily on manual paper records, making it vulnerable to fraud, mislabeling, and a lack of transparency about where herbs actually come from. AyurTrace addresses this by creating a tamper-proof, verifiable record of a herb's journey using blockchain.
+The Ayurvedic herb supply chain relies heavily on manual paper records, making it vulnerable to fraud, mislabeling, and a lack of transparency about where herbs actually come from. AyurTrace addresses this by creating a tamper-resistant, verifiable record of a herb's journey using blockchain.
 
-## How It Works
+How It Works
 
 AyurTrace uses a 3-layer verification system:
 
-1. **GPS Geo-Tagging** – Captures the origin location of the herb at the point of harvest.
-2. **QR Code Scan** – Each batch is assigned a unique QR code that links to its traceability record.
-3. **Blockchain Hash** – Every verification step is recorded immutably on-chain via a smart contract, ensuring the data can't be altered after the fact.
+GPS Geo-Tagging – Captures the herb's origin location using the device's live GPS coordinates at the point of harvest.
+QR Code Scan – Each herb record can generate a unique QR code linking directly to its on-chain traceability record for easy verification.
+Blockchain Hash – Every update (collection, processing, packing) is recorded immutably on-chain via a smart contract, ensuring the data can't be altered after the fact.
 
-Together, these layers achieve 100% data integrity across the supply chain, from harvest to end consumer.
+Together, these layers provide a transparent, tamper-resistant record of a herb's journey across the supply chain.
 
-## Tech Stack
-
-- **Blockchain / Smart Contracts:** Solidity (`HerbTraceability.sol`)
-- **Backend:** Node.js (`server.js`)
-- **QR Code Generation:** `qr.js`
-- **Frontend:** HTML/JS (`index.html`)
-
-## Project Structure
-
-```
-├── HerbTraceability.sol   # Smart contract for on-chain traceability records
-├── server.js               # Backend server
-├── qr.js                   # QR code generation/verification logic
-├── index.html               # Frontend interface
-├── package.json             # Project dependencies
-└── package-lock.json
-```
-
-## Getting Started
-
-```bash
-# Install dependencies
+Roles & Workflow
+Farmer – Registers a new herb with name, GPS-captured location, and quantity. Status: "Collected by Farmer"
+Processor – Updates status by herb ID. Status: "Processed by Processor"
+Manufacturer – Updates status by herb ID. Status: "Packed by Manufacturer"
+Consumer – Looks up a herb by ID to view its full record and generate/scan a QR code for verification
+Tech Stack
+Blockchain / Smart Contracts: Solidity (HerbTraceability.sol)
+Backend: Node.js, Express, Web3.js (server.js)
+QR Code Generation: Client-side via qrcodejs (consumer.html)
+GPS Geo-Tagging: Browser Geolocation API (farmer.html)
+Frontend: HTML/JS (role-based pages for Farmer, Processor, Manufacturer, Consumer)
+Project Structure
+blockchain/   → Smart contract (HerbTraceability.sol)
+backend/      → Express server + contract ABI (server.js, abi.json)
+frontend/     → Role-based HTML pages (farmer, processor, manufacturer, consumer)
+Getting Started
+bash
+# Install dependencies (inside backend/)
 npm install
 
 # Start the server
 node server.js
-```
 
-Then open `index.html` in your browser to access the interface.
+Then open the relevant frontend HTML file in your browser to access the interface.
 
-## Status
+Status
 
 An IEEE conference paper documenting this system's design and methodology has been submitted and is currently under peer review.
 
-## Contributors
+Contributors
 
-Developed as a collaborative group project. Work was shared across all components (smart contract, backend, QR verification, and frontend) rather than strictly divided by module.
+Developed as a collaborative team project.
 
-- [Divya K](https://github.com/divya667-cse) — B.Tech Computer Science, Presidency University
+Divya K — B.Tech Computer Science, Presidency University
