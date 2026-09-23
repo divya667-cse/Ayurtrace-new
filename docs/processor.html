@@ -1,0 +1,9 @@
+<h2>Processor</h2>
+<input id="id" placeholder="Herb ID">
+<button onclick="process()">Process</button>
+
+<script>
+function process(){
+ fetch(`http://localhost:3000/processHerb/${id.value}`,{method:"POST"});
+}
+</script>

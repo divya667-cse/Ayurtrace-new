@@ -1,0 +1,9 @@
+<h2>Manufacturer</h2>
+<input id="id" placeholder="Herb ID">
+<button onclick="manufacture()">Pack</button>
+
+<script>
+function manufacture(){
+ fetch(`http://localhost:3000/manufactureHerb/${id.value}`,{method:"POST"});
+}
+</script>

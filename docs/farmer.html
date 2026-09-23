@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Farmer Upload</title>
+</head>
+<body>
+ 
+<h2>Farmer Upload Herb</h2>
+ 
+<input id="name" placeholder="Herb name"><br>
+<input id="location" placeholder="Location (auto-filled from GPS)" readonly><br>
+<input id="quantity" placeholder="Quantity"><br>
+<button onclick="getLocation()">Capture GPS Location</button>
+<button onclick="addHerb()">Submit</button>
+ 
+<script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      document.getElementById("location").value = lat.toFixed(6) + ", " + lon.toFixed(6);
+    }, function(error) {
+      alert("Could not get location: " + error.message);
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+ 
+async function addHerb() {
+  await fetch("http://localhost:3000/addHerb", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      location: document.getElementById("location").value,
+      quantity: document.getElementById("quantity").value
+    })
+  });
+ 
+  alert("Herb Added!");
+}
+</script>
+ 
+</body>
+</html>
