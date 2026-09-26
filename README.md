@@ -93,6 +93,27 @@ Backend fetches record from blockchain, returns to frontend
 QR code generated, linking to the record
 ```
 
+## Actors and Events
+
+### Actors
+
+| Actor | Role |
+|---|---|
+| Farmer | Initiates a new herb record with origin details (name, GPS location, quantity) |
+| Processor | Updates a herb's status after processing |
+| Manufacturer | Updates a herb's status after packing |
+| Consumer | Queries a herb's full history for verification |
+
+### Events
+
+| Event | Triggered By | Resulting State Change |
+|---|---|---|
+| HerbCollected | Farmer submits new herb | New record created on-chain — status: "Collected by Farmer" |
+| HerbProcessed | Processor submits herb ID | Status updated to "Processed by Processor" |
+| HerbManufactured | Manufacturer submits herb ID | Status updated to "Packed by Manufacturer" |
+| HerbVerified | Consumer looks up herb ID | Record retrieved (read-only — no state change) |
+
+Each event, except verification, results in a permanent, timestamped update to the herb's on-chain record — allowing the full lifecycle of a herb to be reconstructed at any point.
 # Install dependencies (inside backend/)
 npm install
 
