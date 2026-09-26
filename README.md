@@ -33,6 +33,66 @@ backend/      → Express server + contract ABI (server.js, abi.json)
 frontend/     → Role-based HTML pages (farmer, processor, manufacturer, consumer)
 Getting Started
 bash
+## System Architecture
+
+```mermaid
+graph TD
+    A[Farmer Page] -->|POST /addHerb + GPS location| E[Backend Server - Express]
+    B[Processor Page] -->|POST /processHerb/:id| E
+    C[Manufacturer Page] -->|POST /manufactureHerb/:id| E
+    D[Consumer Page] -->|GET /getHerb/:id| E
+    D -->|Generates QR Code| F[QR Code Library]
+
+    E -->|Web3.js call, using abi.json| G[Smart Contract - HerbTraceability.sol]
+    G -->|Stores/Retrieves| H[(Blockchain Ledger)]
+
+    subgraph Frontend Layer
+    A
+    B
+    C
+    D
+    end
+
+    subgraph Backend Layer
+    E
+    F
+    end
+
+    subgraph Blockchain Layer
+    G
+    H
+    end
+```
+
+### Layer Breakdown
+
+**1. Frontend Layer (HTML/JavaScript)**
+Four role-based pages — Farmer, Processor, Manufacturer, Consumer — each sending requests to the backend. The Farmer page captures real GPS coordinates via the browser's Geolocation API. The Consumer page generates a scannable QR code linking to the herb's record.
+
+**2. Backend Layer (Node.js, Express)**
+Receives requests from the frontend and translates them into blockchain transactions using the Web3.js library. Uses `abi.json` to know how to communicate with the deployed smart contract.
+
+**3. Blockchain Layer (Solidity Smart Contract)**
+`HerbTraceability.sol` defines the on-chain logic — creating new herb records and updating their status at each supply chain stage. Once written, records are immutable.
+
+### Data Flow Summary
+
+```
+Farmer submits herb (name, GPS location, quantity)
+        ↓
+Backend calls addHerb() on smart contract
+        ↓
+Record stored on blockchain — status: "Collected by Farmer"
+        ↓
+Processor/Manufacturer update status by ID (via backend → smart contract)
+        ↓
+Consumer looks up herb by ID
+        ↓
+Backend fetches record from blockchain, returns to frontend
+        ↓
+QR code generated, linking to the record
+```
+
 # Install dependencies (inside backend/)
 npm install
 
